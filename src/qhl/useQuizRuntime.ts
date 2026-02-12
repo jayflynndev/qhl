@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/supabaseClient";
 import type { QuizRuntime } from "./types";
+import type { RealtimePostgresChangesPayload } from "@supabase/supabase-js";
 
 export function useQuizRuntime(quizId: string) {
   const [runtime, setRuntime] = useState<QuizRuntime | null>(null);
@@ -45,10 +46,11 @@ export function useQuizRuntime(quizId: string) {
             table: "qhl_quiz_runtime",
             filter: `quiz_id=eq.${quizId}`,
           },
-          (payload: { new: QuizRuntime }) => {
-            setRuntime(payload.new as QuizRuntime);
-          }
+          (payload: RealtimePostgresChangesPayload<QuizRuntime>) => {
+            setRuntime((payload.new ?? null) as QuizRuntime | null);
+          },
         )
+
         .subscribe();
     }
 
