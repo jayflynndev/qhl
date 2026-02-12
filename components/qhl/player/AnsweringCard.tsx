@@ -71,14 +71,14 @@ export function AnsweringCard({
 
       if (!myTeam || !part || !isCaptain) return;
 
-      const { data, error: rpcErr } = await supabase.rpc(
+      const { data, error: rpcErr } = (await supabase.rpc(
         "qhl_player_get_my_draft_answers",
         {
           p_quiz_id: quizId,
           p_part_index: partIndex,
           p_team_id: myTeam.id,
         },
-      );
+      )) as { data: AnswersV1 | null; error: Error | null };
 
       if (cancelled) return;
 
