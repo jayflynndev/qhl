@@ -1,4 +1,3 @@
-"use client";
 import { AdminQhlHub } from "@/components/qhl/admin/AdminQhlHub";
 
 export const dynamic = "force-dynamic";
