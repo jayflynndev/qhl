@@ -38,20 +38,20 @@ export function CreateVenueCard({ onCreated }: { onCreated: () => void }) {
   }
 
   return (
-    <div className="rounded-xl border p-4 space-y-3">
-      <div className="font-medium">Create venue</div>
+    <div className="qhl-card space-y-3">
+      <div className="text-lg font-bold text-white">Create venue</div>
 
       <label className="block text-sm">
-        <div className="opacity-70">Name</div>
+        <div className="qhl-label">Name</div>
         <input
-          className="mt-1 w-full rounded border px-3 py-2"
+          className="qhl-input"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="The Patreon Arms"
         />
       </label>
 
-      <label className="flex items-center gap-2 text-sm">
+      <label className="flex items-center gap-2 text-sm text-violet-100/90">
         <input
           type="checkbox"
           checked={isPrivate}
@@ -61,11 +61,11 @@ export function CreateVenueCard({ onCreated }: { onCreated: () => void }) {
       </label>
 
       <label className="block text-sm">
-        <div className="opacity-70">Team cap (default)</div>
+        <div className="qhl-label">Team cap (default)</div>
         <input
           type="number"
           min={1}
-          className="mt-1 w-full rounded border px-3 py-2"
+          className="qhl-input"
           value={teamCap}
           onChange={(e) => setTeamCap(Number(e.target.value))}
         />
@@ -74,7 +74,7 @@ export function CreateVenueCard({ onCreated }: { onCreated: () => void }) {
       <button
         onClick={createVenue}
         disabled={saving}
-        className="rounded bg-black px-3 py-2 text-white disabled:opacity-40"
+        className="qhl-btn-primary"
       >
         {saving ? "Creating…" : "Create venue"}
       </button>

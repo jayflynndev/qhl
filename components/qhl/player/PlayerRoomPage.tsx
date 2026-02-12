@@ -11,6 +11,32 @@ import { MarkingCard } from "@/components/qhl/player/MarkingCard";
 import { LeaderboardsCard } from "@/components/qhl/player/LeaderboardCard";
 import { MyResultsTabbedCard } from "@/components/qhl/player/MyResultsTabbedCard";
 import { useQuizMeta } from "@/src/qhl/useQuizMeta";
+import { TopTabs } from "@/components/qhl/shared/TopTabs";
+import { ChatPlaceholderCard } from "@/components/qhl/player/ChatPlaceholderCard";
+
+function quizStatusMessage(phase: string | null | undefined): string | null {
+  if (!phase) return "Loading quiz state…";
+
+  const map: Record<string, string> = {
+    LOBBY: "The quiz hasn’t started yet. Get your team ready.",
+    COUNTDOWN_TO_ANSWERING: "Starting soon — keep an eye on the countdown.",
+    COUNTDOWN_TO_LOCK: "Answering is still open — lock is coming up.",
+    ANSWERS_FINALISING:
+      "Submitting answers… hang tight while we confirm everything is saved.",
+    ANSWERS_READY_TO_SWAP:
+      "Answers are in. Waiting for the quizmaster to swap sheets.",
+    COUNTDOWN_TO_MARKING:
+      "Marking will begin shortly — you’ll receive a sheet to mark.",
+    MARKING: "Marking is live. Your captain will submit marks when ready.",
+    COUNTDOWN_TO_SUBMIT_MARKS: "Marking ends soon — submitting marks shortly.",
+    MARKS_FINALISING:
+      "Submitting marks… hang tight while we confirm everything is saved.",
+    SHOW_LEADERBOARD: "Scores are in — showing leaderboards.",
+    ENDED: "Quiz ended — you can still view results and leaderboards.",
+  };
+
+  return map[phase] ?? `Live phase: ${phase}`;
+}
 
 function toYouTubeEmbed(urlOrId: string): string | null {
   const raw = (urlOrId || "").trim();
@@ -132,6 +158,17 @@ export function PlayerRoomPage({ quizId }: { quizId: string }) {
 
   const youtubeUrl = meta?.youtube_url ?? null;
 
+  const [activeTab, setActiveTab] = useState<"quiz" | "chat">("quiz");
+
+  const phase = runtime?.phase ?? null;
+
+  const showAnswering = phase === "ANSWERING" || phase === "COUNTDOWN_TO_LOCK";
+  const showMarking =
+    phase === "MARKING" || phase === "COUNTDOWN_TO_SUBMIT_MARKS";
+  const showLeaderboard = phase === "SHOW_LEADERBOARD" || phase === "ENDED";
+
+  const shouldShowStatus = !showAnswering && !showMarking && !showLeaderboard;
+
   useEffect(() => {
     let cancelled = false;
 
@@ -182,7 +219,9 @@ export function PlayerRoomPage({ quizId }: { quizId: string }) {
                 return id && username ? ([id, username] as const) : null;
               })
               .filter(
-                (entry: readonly [string, string] | null): entry is readonly [string, string] => entry !== null,
+                (
+                  entry: readonly [string, string] | null,
+                ): entry is readonly [string, string] => entry !== null,
               ),
           );
         }
@@ -276,12 +315,13 @@ export function PlayerRoomPage({ quizId }: { quizId: string }) {
               </div>
 
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-                {runtime?.countdown_ends_at ? (
-                  <div className="qhl-card px-4 py-3">
-                    <div className="text-xs font-semibold text-violet-100/80">
-                      {phaseCountdownLabel(runtime.phase)}
-                    </div>
-                    <div className="mt-1">
+                <div className="qhl-card px-4 py-3">
+                  <div className="text-xs font-semibold text-violet-100/80">
+                    {phaseCountdownLabel(runtime?.phase)}
+                  </div>
+
+                  <div className="mt-1">
+                    {runtime?.countdown_ends_at ? (
                       <CountdownTimer
                         endsAt={runtime.countdown_ends_at}
                         onExpire={async () => {
@@ -324,9 +364,13 @@ export function PlayerRoomPage({ quizId }: { quizId: string }) {
                           }
                         }}
                       />
-                    </div>
+                    ) : (
+                      <div className="text-sm text-violet-100/70">
+                        No countdown running right now.
+                      </div>
+                    )}
                   </div>
-                ) : null}
+                </div>
               </div>
             </div>
           </div>
@@ -337,31 +381,57 @@ export function PlayerRoomPage({ quizId }: { quizId: string }) {
         </div>
 
         <div className="space-y-4">
-          {!myTeam ? (
-            <TeamJoinCard quizId={quizId} onTeamChanged={refresh} />
-          ) : null}
-
-          <AnsweringCard
-            quizId={quizId}
-            runtime={runtime}
-            myTeam={myTeam}
-            setup={meta?.setup ?? null}
+          <TopTabs
+            tabs={[
+              { id: "quiz", label: "Quiz" },
+              { id: "chat", label: "Chat" },
+            ]}
+            active={activeTab}
+            onChange={(id) => setActiveTab(id as "quiz" | "chat")}
           />
 
-          <MarkingCard
-            quizId={quizId}
-            runtime={runtime}
-            myTeam={myTeam}
-            setup={meta?.setup ?? null}
-          />
+          {activeTab === "chat" ? (
+            <ChatPlaceholderCard />
+          ) : (
+            <div className="space-y-4">
+              {/* This join card stays in the Quiz tab, and we can also keep it visible above tabs if you prefer */}
+              {!myTeam ? (
+                <TeamJoinCard quizId={quizId} onTeamChanged={refresh} />
+              ) : null}
 
-          <LeaderboardsCard quizId={quizId} runtime={runtime} />
+              {/* “Quiz content area” is always present */}
+              <div className="space-y-4">
+                <AnsweringCard
+                  quizId={quizId}
+                  runtime={runtime}
+                  myTeam={myTeam}
+                  setup={meta?.setup ?? null}
+                />
 
-          <MyResultsTabbedCard
-            quizId={quizId}
-            runtime={runtime}
-            myTeam={myTeam}
-          />
+                <MarkingCard
+                  quizId={quizId}
+                  runtime={runtime}
+                  myTeam={myTeam}
+                  setup={meta?.setup ?? null}
+                />
+
+                <LeaderboardsCard quizId={quizId} runtime={runtime} />
+
+                <MyResultsTabbedCard
+                  quizId={quizId}
+                  runtime={runtime}
+                  myTeam={myTeam}
+                />
+
+                {/* If none of the phase cards render, show a friendly status */}
+                {shouldShowStatus ? (
+                  <div className="qhl-card text-sm text-violet-100/80">
+                    {quizStatusMessage(phase)}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

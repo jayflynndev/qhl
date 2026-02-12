@@ -27,7 +27,7 @@ body {
       var(--qhl-bg-soft) 100%
     );
   color: var(--qhl-text);
-  font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
+  font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   /* Improve touch scrolling on mobile */
   -webkit-overflow-scrolling: touch;
   /* Prevent text size adjustment on orientation change */

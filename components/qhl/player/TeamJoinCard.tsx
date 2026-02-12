@@ -142,20 +142,20 @@ export function TeamJoinCard({
   const joinDisabled = joinCode.trim().length === 0;
 
   return (
-    <div className="rounded-2xl border bg-white p-5 shadow-sm space-y-4">
+    <div className="qhl-card space-y-4">
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <div className="text-base font-semibold tracking-tight text-slate-900">
+          <div className="text-base font-semibold tracking-tight text-slate-white">
             Team
           </div>
-          <div className="mt-1 text-sm text-slate-600">
+          <div className="mt-1 text-sm text-violet-100/80">
             Create a team or join with a code.
           </div>
         </div>
 
         {myTeam ? (
-          <div className="inline-flex items-center rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-xs font-medium text-violet-900">
+          <div className="inline-flex items-center rounded-full border border-yellow-300/50 bg-yellow-300/20 px-3 py-1 text-xs font-medium text-yellow-100">
             Joined
           </div>
         ) : null}
@@ -163,22 +163,22 @@ export function TeamJoinCard({
 
       {myTeam ? (
         <div className="space-y-3">
-          <div className="rounded-xl border bg-slate-50 p-4">
-            <div className="text-sm text-slate-600">You’re in</div>
-            <div className="mt-1 text-lg font-semibold text-slate-900">
+          <div className="rounded-xl border border-violet-200/30 bg-violet-950/30 p-4">
+            <div className="text-sm text-violet-100/80">You’re in</div>
+            <div className="mt-1 text-lg font-semibold text-violet-50">
               {myTeam.name}
             </div>
 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-              <div className="text-sm text-slate-600">
+              <div className="text-sm text-violet-100/80">
                 Join code{" "}
-                <span className="font-mono rounded-md bg-white px-2 py-1 border text-slate-900">
+                <span className="font-mono rounded-md border border-violet-200/35 bg-violet-900/40 px-2 py-1 text-violet-50">
                   {myTeam.join_code}
                 </span>
               </div>
 
               <button
-                className="rounded-xl border px-3 py-2 text-sm font-medium text-slate-800 hover:bg-white"
+                className="qhl-btn-secondary px-3 py-2 text-sm"
                 onClick={leaveTeam}
               >
                 Leave team
@@ -186,7 +186,7 @@ export function TeamJoinCard({
             </div>
           </div>
 
-          <div className="text-xs text-slate-500">
+          <div className="text-xs text-violet-100/70">
             Share the join code with teammates so they can join your team.
           </div>
         </div>
@@ -195,16 +195,16 @@ export function TeamJoinCard({
           {/* Venue */}
           <div className="space-y-2">
             {loading ? (
-              <div className="text-sm text-slate-600">Loading venues…</div>
+              <div className="text-sm text-violet-100/80">Loading venues…</div>
             ) : (
               <label className="block">
-                <div className="text-sm font-medium text-slate-800">Venue</div>
-                <div className="mt-1 text-sm text-slate-600">
+                <div className="text-sm font-medium text-violet-50">Venue</div>
+                <div className="mt-1 text-sm text-violet-100/80">
                   Choose where you’re playing.
                 </div>
 
                 <select
-                  className="mt-3 w-full rounded-xl border bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-200"
+                  className="mt-3 w-full rounded-xl border border-violet-200/30 bg-violet-900/35 px-3 py-2 text-sm text-violet-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-300/60"
                   value={selectedQuizVenueId}
                   onChange={(e) => setSelectedQuizVenueId(e.target.value)}
                 >
@@ -220,14 +220,14 @@ export function TeamJoinCard({
 
             {selectedVenue?.is_private && (
               <label className="block">
-                <div className="text-sm font-medium text-slate-800">
+                <div className="text-sm font-medium text-violet-50">
                   Venue access code
                 </div>
-                <div className="mt-1 text-sm text-slate-600">
+                <div className="mt-1 text-sm text-violet-100/80">
                   This venue is private. Enter the access code to join.
                 </div>
                 <input
-                  className="mt-3 w-full rounded-xl border bg-white px-3 py-2 text-sm font-mono text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-200"
+                  className="mt-3 w-full rounded-xl border border-violet-200/30 bg-violet-900/35 px-3 py-2 text-sm font-mono text-violet-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-300/60"
                   value={venueCode}
                   onChange={(e) => setVenueCode(e.target.value.toUpperCase())}
                   placeholder="e.g. P4TR0N"
@@ -239,25 +239,25 @@ export function TeamJoinCard({
 
           {/* Create / Join */}
           <div className="grid gap-3 md:grid-cols-2">
-            <div className="rounded-2xl border bg-gradient-to-br from-violet-50 via-white to-white p-4 space-y-3">
+            <div className="rounded-2xl border border-violet-200/35 bg-violet-900/35 p-4 space-y-3">
               <div>
-                <div className="text-sm font-semibold text-slate-900">
+                <div className="text-sm font-semibold text-white">
                   Create team
                 </div>
-                <div className="mt-1 text-xs text-slate-600">
+                <div className="mt-1 text-xs text-violet-100/75">
                   You’ll get a join code to share.
                 </div>
               </div>
 
               <input
-                className="w-full rounded-xl border bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-violet-200"
+                className="w-full rounded-xl border border-violet-200/30 bg-violet-950/35 px-3 py-2 text-sm text-violet-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-300/60"
                 value={teamName}
                 onChange={(e) => setTeamName(e.target.value)}
                 placeholder="Team name"
               />
 
               <button
-                className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-40"
+                className="qhl-btn-primary w-full px-3 py-2 text-sm disabled:opacity-40"
                 disabled={createDisabled}
                 onClick={createTeam}
               >
@@ -265,18 +265,18 @@ export function TeamJoinCard({
               </button>
             </div>
 
-            <div className="rounded-2xl border bg-gradient-to-br from-yellow-50 via-white to-white p-4 space-y-3">
+            <div className="rounded-2xl border border-yellow-300/40 bg-yellow-300/10 p-4 space-y-3">
               <div>
-                <div className="text-sm font-semibold text-slate-900">
+                <div className="text-sm font-semibold text-white">
                   Join team
                 </div>
-                <div className="mt-1 text-xs text-slate-600">
+                <div className="mt-1 text-xs text-violet-100/75">
                   Enter the code from your teammate.
                 </div>
               </div>
 
               <input
-                className="w-full rounded-xl border bg-white px-3 py-2 text-sm font-mono text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-200"
+                className="w-full rounded-xl border border-yellow-300/45 bg-violet-950/35 px-3 py-2 text-sm font-mono text-violet-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-300/60"
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
                 placeholder="JOINCODE"
@@ -284,7 +284,7 @@ export function TeamJoinCard({
               />
 
               <button
-                className="inline-flex w-full items-center justify-center rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-slate-800 disabled:opacity-40"
+                className="qhl-btn-primary w-full px-3 py-2 text-sm disabled:opacity-40"
                 disabled={joinDisabled}
                 onClick={joinTeam}
               >

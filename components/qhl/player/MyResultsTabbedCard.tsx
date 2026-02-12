@@ -128,11 +128,9 @@ export function MyResultsTabbedCard({
 
   if (!myTeam) {
     return (
-      <div className="rounded-2xl border bg-white p-5 shadow-sm">
-        <div className="text-base font-semibold text-slate-900">
-          Your results
-        </div>
-        <div className="mt-1 text-sm text-slate-600">
+      <div className="qhl-card">
+        <div className="text-base font-semibold text-white">Your results</div>
+        <div className="mt-1 text-sm text-violet-100/80">
           Join a team to see your results.
         </div>
       </div>
@@ -141,20 +139,18 @@ export function MyResultsTabbedCard({
 
   return (
     <div className="rounded-2xl border bg-white p-5 shadow-sm space-y-4">
-      <div className="flex items-start justify-between gap-4">
+      <div className="qhl-card space-y-4">
         <div>
-          <div className="text-base font-semibold text-slate-900">
-            Your results
-          </div>
-          <div className="mt-1 text-sm text-slate-600">
+          <div className="text-base font-semibold text-white">Your results</div>
+          <div className="mt-1 text-sm text-violet-100/80">
             Team:{" "}
-            <span className="font-medium text-slate-900">{myTeam.name}</span>
+            <span className="font-medium text-violet-50">{myTeam.name}</span>
           </div>
         </div>
 
         <button
           onClick={() => loadResults(selectedPartIndex)}
-          className="rounded-xl border bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 disabled:opacity-40"
+          className="qhl-btn-secondary px-4 py-2 text-sm disabled:opacity-40"
           disabled={loading}
         >
           {loading ? "Refreshing…" : "Refresh"}
@@ -168,42 +164,42 @@ export function MyResultsTabbedCard({
       />
 
       {error ? (
-        <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+        <div className="rounded-xl border border-rose-300/40 bg-rose-400/15 px-4 py-3 text-sm text-rose-100">
           {error}
         </div>
       ) : null}
 
       {row?.needs_manual_review ? (
-        <div className="rounded-2xl border bg-yellow-50 p-4">
-          <div className="text-sm font-semibold text-yellow-900">
+        <div className="rounded-2xl border border-yellow-300/45 bg-yellow-300/15 p-4">
+          <div className="text-sm font-semibold text-yellow-100">
             Manual review
           </div>
-          <div className="mt-1 text-sm text-yellow-900/80">
+          <div className="mt-1 text-sm text-yellow-100/85">
             You missed a phase or your marks weren’t submitted in time — this
             will be manually reviewed after the quiz.
           </div>
           {row.notes ? (
-            <div className="mt-2 text-xs text-yellow-900/70">
+            <div className="mt-2 text-xs text-yellow-100/80">
               Notes: {row.notes}
             </div>
           ) : null}
         </div>
       ) : null}
 
-      <div className="rounded-2xl border bg-slate-50 p-4">
-        <div className="text-sm font-medium text-slate-700">Score</div>
+      <div className="rounded-2xl border border-violet-200/30 bg-violet-950/30 p-4">
+        <div className="text-sm font-medium text-violet-100/90">Score</div>
         <div className="mt-3 grid grid-cols-2 gap-3">
-          <div className="rounded-xl border bg-white p-3 shadow-sm">
-            <div className="text-xs text-slate-600">
+          <div className="rounded-xl border border-violet-200/30 bg-violet-900/35 p-3">
+            <div className="text-xs text-violet-100/75">
               Part {selectedPartIndex}
             </div>
-            <div className="mt-1 font-mono text-2xl text-slate-900">
+            <div className="mt-1 font-mono text-2xl text-violet-50">
               {row?.part_points ?? 0}
             </div>
           </div>
-          <div className="rounded-xl border bg-white p-3 shadow-sm">
-            <div className="text-xs text-slate-600">Total</div>
-            <div className="mt-1 font-mono text-2xl text-slate-900">
+          <div className="rounded-xl border border-violet-200/30 bg-violet-900/35 p-3">
+            <div className="text-xs text-violet-100/75">Total</div>
+            <div className="mt-1 font-mono text-2xl text-violet-50">
               {row?.total_points ?? 0}
             </div>
           </div>
@@ -211,8 +207,8 @@ export function MyResultsTabbedCard({
       </div>
 
       {part ? (
-        <div className="rounded-2xl border bg-white p-4">
-          <div className="text-base font-semibold text-slate-900">
+        <div className="rounded-2xl border border-violet-200/30 bg-violet-950/30 p-4">
+          <div className="text-base font-semibold text-white">
             Your marked sheet
           </div>
           <div className="mt-3">
@@ -220,11 +216,11 @@ export function MyResultsTabbedCard({
           </div>
         </div>
       ) : (
-        <div className="rounded-2xl border bg-slate-50 p-4">
-          <div className="text-base font-semibold text-slate-900">
+        <div className="rounded-2xl border border-violet-200/30 bg-violet-950/30 p-4">
+          <div className="text-base font-semibold text-white">
             Your marked sheet
           </div>
-          <div className="mt-1 text-sm text-slate-600">
+          <div className="mt-1 text-sm text-violet-100/80">
             Quiz setup not found for this part yet.
           </div>
         </div>

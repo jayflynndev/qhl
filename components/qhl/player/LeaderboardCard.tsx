@@ -38,8 +38,8 @@ function TabPill({
       className={[
         "rounded-full px-4 py-2 text-sm font-medium transition border",
         active
-          ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-          : "bg-white text-slate-800 border-slate-200 hover:bg-slate-50",
+          ? "border-yellow-300/70 bg-yellow-300/85 text-black shadow-sm"
+          : "border-violet-200/35 bg-violet-900/45 text-violet-50 hover:bg-violet-900/60",
       ].join(" ")}
     >
       {label}
@@ -59,21 +59,21 @@ function RowLine({
   subtle?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between gap-3 rounded-xl border bg-white p-3 shadow-sm">
+    <div className="flex items-center justify-between gap-3 rounded-xl border border-violet-200/30 bg-violet-950/35 p-3">
       <div className="flex min-w-0 items-center gap-3">
-        <div className="w-8 text-center text-sm font-semibold text-slate-500">
+        <div className="w-8 text-center text-sm font-semibold text-violet-200/75">
           {rank}
         </div>
         <div
           className={[
             "truncate",
-            subtle ? "text-slate-700" : "font-semibold text-slate-900",
+            subtle ? "text-violet-100/85" : "font-semibold text-violet-50",
           ].join(" ")}
         >
           {name}
         </div>
       </div>
-      <div className="shrink-0 font-mono text-sm text-slate-900">{right}</div>
+      <div className="shrink-0 font-mono text-sm text-violet-50">{right}</div>
     </div>
   );
 }
@@ -138,20 +138,18 @@ export function LeaderboardsCard({
   if (!show) return null;
 
   return (
-    <div className="rounded-2xl border bg-white p-5 shadow-sm space-y-4">
+    <div className="qhl-card space-y-4">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <div className="text-base font-semibold text-slate-900">
-            Leaderboards
-          </div>
-          <div className="mt-1 text-sm text-slate-600">
+          <div className="text-base font-semibold text-white">Leaderboards</div>
+          <div className="mt-1 text-sm text-violet-100/80">
             Venue • Top 10 • Best Venue
           </div>
         </div>
 
         <button
           onClick={load}
-          className="rounded-xl border bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-sm hover:bg-slate-50 disabled:opacity-40"
+          className="qhl-btn-secondary px-4 py-2 text-sm disabled:opacity-40"
           disabled={loading}
         >
           {loading ? "Refreshing…" : "Refresh"}
@@ -179,17 +177,17 @@ export function LeaderboardsCard({
       {activeTab === "VENUE" && (
         <div className="space-y-4">
           {venueGroups.length === 0 ? (
-            <div className="rounded-2xl border bg-slate-50 p-4 text-sm text-slate-600">
+            <div className="rounded-2xl border border-violet-200/30 bg-violet-950/30 p-4 text-sm text-violet-100/80">
               No venue scores yet.
             </div>
           ) : (
             venueGroups.map((g) => (
               <div
                 key={g.venueId}
-                className="rounded-2xl border bg-slate-50 p-4"
+                className="rounded-2xl border border-violet-200/30 bg-violet-950/30 p-4"
               >
                 <div className="flex items-baseline justify-between">
-                  <div className="text-sm font-semibold text-slate-900">
+                  <div className="text-sm font-semibold text-white">
                     {g.venueName}
                   </div>
                   <div className="text-xs text-slate-600">
@@ -235,7 +233,7 @@ export function LeaderboardsCard({
       {activeTab === "BEST_VENUE" && (
         <div className="space-y-2">
           {venueAvg.length === 0 ? (
-            <div className="rounded-2xl border bg-slate-50 p-4 text-sm text-slate-600">
+            <div className="rounded-2xl border border-violet-200/30 bg-violet-950/30 p-4 text-sm text-violet-100/80">
               No venue averages yet.
             </div>
           ) : (
@@ -250,7 +248,7 @@ export function LeaderboardsCard({
             ))
           )}
           {venueAvg.length > 0 ? (
-            <div className="text-xs text-slate-600">
+            <div className="text-xs text-violet-100/75">
               “Best Venue” is ranked by average team score (not total points).
             </div>
           ) : null}

@@ -72,7 +72,7 @@ export function useTeamSuggestions({
           schema: "public",
           table: "qhl_team_suggestions",
         },
-        (payload) => {
+        (payload: { new: Record<string, unknown> | null; old: Record<string, unknown> | null }) => {
           const row =
             ((payload.new as Record<string, unknown> | null) ??
               (payload.old as Record<string, unknown> | null)) ||
@@ -81,12 +81,19 @@ export function useTeamSuggestions({
 
           const rowTeamId = row.team_id;
           const rowQuizId = row.quiz_id;
-          const rowPartIndex = row.part_index;
+
+          const rawPart = (row as Record<string, unknown>).part_index;
+          const rowPartIndex =
+            typeof rawPart === "number"
+              ? rawPart
+              : typeof rawPart === "string"
+                ? Number(rawPart)
+                : NaN;
 
           const matches =
             typeof rowTeamId === "string" &&
             typeof rowQuizId === "string" &&
-            typeof rowPartIndex === "number" &&
+            Number.isFinite(rowPartIndex) &&
             rowTeamId === teamId &&
             rowQuizId === quizId &&
             rowPartIndex === partIndex;

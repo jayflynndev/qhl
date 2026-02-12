@@ -40,12 +40,14 @@ export function AdminVenuesPage() {
   }, []);
 
   return (
-    <div className="mx-auto max-w-5xl p-4 space-y-4">
-      <div>
-        <h1 className="text-xl font-semibold">QHL Venues</h1>
-        <div className="text-sm opacity-70">
-          Create venues (public or private). Private venues use per-quiz access
-          codes.
+    <div className="qhl-shell space-y-5">
+      <div className="qhl-hero">
+        <div className="qhl-kicker">Admin Console</div>
+        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-white md:text-4xl">
+          QHL Venues
+        </h1>
+        <div className="mt-2 text-sm text-violet-100/80 md:text-base">
+          Create venues (public/private) and manage default team capacity.
         </div>
       </div>
 

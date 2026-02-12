@@ -122,14 +122,14 @@ export function QuizVenuesCard({ quizId }: { quizId: string }) {
   }
 
   return (
-    <div className="rounded-xl border p-4 space-y-3">
-      <div className="font-medium">Venues in this quiz</div>
+    <div className="qhl-card space-y-3">
+      <div className="text-lg font-bold text-white">Venues in this quiz</div>
 
       <div className="flex flex-col gap-2 md:flex-row md:items-end">
-        <label className="block text-sm flex-1">
-          <div className="opacity-70">Add venue</div>
+        <label className="block flex-1 text-sm">
+          <div className="qhl-label">Add venue</div>
           <select
-            className="mt-1 w-full rounded border px-3 py-2"
+            className="qhl-input"
             value={selectedVenueId}
             onChange={(e) => setSelectedVenueId(e.target.value)}
           >
@@ -142,10 +142,10 @@ export function QuizVenuesCard({ quizId }: { quizId: string }) {
           </select>
         </label>
 
-        <label className="block text-sm w-full md:w-56">
-          <div className="opacity-70">Team cap override (optional)</div>
+        <label className="block w-full text-sm md:w-56">
+          <div className="qhl-label">Team cap override</div>
           <input
-            className="mt-1 w-full rounded border px-3 py-2"
+            className="qhl-label"
             value={teamCapOverride}
             onChange={(e) => setTeamCapOverride(e.target.value)}
             placeholder="e.g. 10"
@@ -155,35 +155,38 @@ export function QuizVenuesCard({ quizId }: { quizId: string }) {
         <button
           onClick={addVenueToQuiz}
           disabled={!selectedVenueId}
-          className="rounded bg-black px-3 py-2 text-white disabled:opacity-40"
+          className="qhl-btn-primary"
         >
           Add
         </button>
       </div>
 
       {loading ? (
-        <div className="text-sm opacity-70">Loading…</div>
+        <div className="text-sm text-violet-100/80">Loading…</div>
       ) : quizVenuesWithVenue.length === 0 ? (
-        <div className="text-sm opacity-70">
+        <div className="text-sm text-violet-100/80">
           No venues added to this quiz yet.
         </div>
       ) : (
         <div className="space-y-2">
           {quizVenuesWithVenue.map((qv) => (
-            <div key={qv.id} className="rounded border p-3">
+            <div
+              key={qv.id}
+              className="rounded-xl border border-violet-200/30 bg-violet-950/30 p-3"
+            >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="font-medium">
+                  <div className="font-semibold text-violet-50">
                     {qv.venue?.name ?? qv.venue_id}
                   </div>
-                  <div className="text-xs opacity-70">
+                  <div className="text-xs text-violet-100/75">
                     Team cap: {qv.team_cap} •{" "}
                     {qv.venue?.is_private ? "Private" : "Public"}
                   </div>
                   {qv.venue?.is_private && (
-                    <div className="mt-1 text-sm">
+                    <div className="mt-1 text-sm text-violet-100/85">
                       Access code:{" "}
-                      <span className="font-mono font-semibold">
+                      <span className="font-mono font-semibold text-yellow-100">
                         {qv.access_code ?? "—"}
                       </span>
                     </div>
@@ -194,14 +197,14 @@ export function QuizVenuesCard({ quizId }: { quizId: string }) {
                   {qv.venue?.is_private && (
                     <button
                       onClick={() => regenerateCode(qv.id)}
-                      className="rounded border px-3 py-2 text-sm"
+                      className="qhl-btn-secondary px-3 py-2 text-sm"
                     >
                       Regenerate code
                     </button>
                   )}
                   <button
                     onClick={() => removeVenue(qv.id)}
-                    className="rounded border px-3 py-2 text-sm"
+                    className="inline-flex items-center justify-center rounded-xl border border-rose-300/40 bg-rose-400/15 px-3 py-2 text-sm font-semibold text-rose-100 transition hover:bg-rose-400/25"
                   >
                     Remove
                   </button>

@@ -3,6 +3,10 @@
 import { supabase } from "@/supabaseClient";
 import type { QuizRuntime } from "@/src/qhl/types";
 
+function actionClass() {
+  return "qhl-btn-secondary w-full justify-start px-4 py-2.5 text-left text-sm";
+}
+
 export function AdminPhaseControls({
   quizId,
   runtime,
@@ -26,6 +30,7 @@ export function AdminPhaseControls({
       alert(error.message);
     }
   }
+
   async function startLockCountdown() {
     const { error } = await supabase.rpc("qhl_admin_start_lock_countdown", {
       p_quiz_id: quizId,
@@ -152,116 +157,107 @@ export function AdminPhaseControls({
   }
 
   return (
-    <div className="rounded-xl border p-4 space-y-2">
-      <div className="font-medium">Admin controls</div>
-
-      <button
-        onClick={startAnsweringCountdown}
-        disabled={runtime.phase !== "LOBBY"}
-        className="rounded bg-black px-3 py-2 text-white disabled:opacity-40"
-      >
-        Start answering countdown
-      </button>
-
-      <button
-        onClick={startLockCountdown}
-        disabled={runtime.phase !== "ANSWERING"}
-        className="rounded bg-black px-3 py-2 text-white disabled:opacity-40"
-      >
-        Start lock countdown
-      </button>
-
-      <button
-        onClick={completeAnswersFinalising}
-        disabled={runtime.phase !== "ANSWERS_FINALISING"}
-        className="rounded bg-black px-3 py-2 text-white disabled:opacity-40"
-      >
-        Confirm answers finalised
-      </button>
-
-      {runtime.phase === "ANSWERS_READY_TO_SWAP" && (
-        <button onClick={swapAnswerSheets}>Swap answer sheets</button>
-      )}
-
-      {runtime.phase === "SWAPPING" && (
-        <button onClick={completeSwapping}>Confirm swap complete</button>
-      )}
-
-      {/* MARKING_READY → COUNTDOWN_TO_MARKING */}
-      {runtime.phase === "MARKING_READY" && (
-        <button
-          onClick={startMarkingCountdown}
-          className="rounded bg-black px-3 py-2 text-white"
-        >
-          Start marking countdown
-        </button>
-      )}
-
-      {/* MARKING → COUNTDOWN_TO_SUBMIT_MARKS */}
-      {runtime.phase === "MARKING" && (
-        <button
-          onClick={startSubmitMarksCountdown}
-          className="rounded bg-black px-3 py-2 text-white"
-        >
-          Start submit marks countdown
-        </button>
-      )}
-
-      {/* MARKS_FINALISING → SCORES_READY */}
-      {runtime.phase === "MARKS_FINALISING" && (
-        <button
-          onClick={completeMarksFinalising}
-          className="rounded bg-black px-3 py-2 text-white"
-        >
-          Confirm marks finalised
-        </button>
-      )}
-
-      {runtime.phase === "SCORES_READY" && (
-        <button
-          onClick={prepareLeaderboard}
-          className="rounded bg-black px-3 py-2 text-white"
-        >
-          Prepare leaderboard
-        </button>
-      )}
-
-      {runtime.phase === "LEADERBOARD_PREPARING" && (
-        <button
-          onClick={completeLeaderboardPreparing}
-          className="rounded bg-black px-3 py-2 text-white"
-        >
-          Confirm leaderboard ready
-        </button>
-      )}
-
-      {runtime.phase === "LEADERBOARD_READY" && (
-        <button
-          onClick={showLeaderboard}
-          className="rounded bg-black px-3 py-2 text-white"
-        >
-          Show leaderboard
-        </button>
-      )}
-
-      {runtime.phase === "SHOW_LEADERBOARD" && (
-        <div className="flex gap-2">
-          <button
-            onClick={nextPart}
-            className="rounded bg-black px-3 py-2 text-white"
-          >
-            Next part
-          </button>
-          <button
-            onClick={endQuiz}
-            className="rounded bg-black px-3 py-2 text-white"
-          >
-            End quiz
-          </button>
+    <div className="qhl-card space-y-3">
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-base font-semibold text-white">Admin controls</div>
+        <div className="rounded-full border border-violet-200/35 bg-violet-900/40 px-3 py-1 text-xs font-medium text-violet-100/90">
+          Current phase: {runtime.phase}
         </div>
-      )}
+      </div>
 
-      <div className="text-xs opacity-70">Current phase: {runtime.phase}</div>
+      <div className="grid gap-2">
+        <button
+          onClick={startAnsweringCountdown}
+          disabled={runtime.phase !== "LOBBY"}
+          className={actionClass()}
+        >
+          Start answering countdown
+        </button>
+
+        <button
+          onClick={startLockCountdown}
+          disabled={runtime.phase !== "ANSWERING"}
+          className={actionClass()}
+        >
+          Start lock countdown
+        </button>
+
+        <button
+          onClick={completeAnswersFinalising}
+          disabled={runtime.phase !== "ANSWERS_FINALISING"}
+          className={actionClass()}
+        >
+          Confirm answers finalised
+        </button>
+
+        {runtime.phase === "ANSWERS_READY_TO_SWAP" && (
+          <button onClick={swapAnswerSheets} className={actionClass()}>
+            Swap answer sheets
+          </button>
+        )}
+
+        {runtime.phase === "SWAPPING" && (
+          <button onClick={completeSwapping} className={actionClass()}>
+            Confirm swap complete
+          </button>
+        )}
+
+        {runtime.phase === "MARKING_READY" && (
+          <button onClick={startMarkingCountdown} className={actionClass()}>
+            Start marking countdown
+          </button>
+        )}
+
+        {runtime.phase === "MARKING" && (
+          <button onClick={startSubmitMarksCountdown} className={actionClass()}>
+            Start submit marks countdown
+          </button>
+        )}
+
+        {runtime.phase === "MARKS_FINALISING" && (
+          <button
+            onClick={completeMarksFinalising}
+            className="rounded bg-black px-3 py-2 text-white"
+          >
+            Confirm marks finalised
+          </button>
+        )}
+
+        {runtime.phase === "SCORES_READY" && (
+          <button onClick={prepareLeaderboard} className={actionClass()}>
+            Prepare leaderboard
+          </button>
+        )}
+
+        {runtime.phase === "LEADERBOARD_PREPARING" && (
+          <button
+            onClick={completeLeaderboardPreparing}
+            className={actionClass()}
+          >
+            Confirm leaderboard ready
+          </button>
+        )}
+
+        {runtime.phase === "LEADERBOARD_READY" && (
+          <button onClick={showLeaderboard} className={actionClass()}>
+            Show leaderboard
+          </button>
+        )}
+
+        {runtime.phase === "SHOW_LEADERBOARD" && (
+          <div className="grid gap-2 sm:grid-cols-2">
+            <button onClick={nextPart} className={actionClass()}>
+              Next part
+            </button>
+            <button
+              onClick={endQuiz}
+              className="inline-flex w-full items-center justify-start rounded-xl border border-rose-300/40 bg-rose-400/15 px-4 py-2.5 text-left text-sm font-semibold text-rose-100 transition hover:bg-rose-400/25"
+            >
+              End quiz
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
