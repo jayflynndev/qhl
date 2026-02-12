@@ -1,3 +1,4 @@
+"use client";
 import { AdminQhlHub } from "@/components/qhl/admin/AdminQhlHub";
 
 export default function Page() {
